@@ -12,6 +12,7 @@ import System.Console.Haskeline.Command.Undo
 import System.Console.Haskeline.Command.KillRing
 import System.Console.Haskeline.LineState
 import System.Console.Haskeline.InputT
+import System.Console.Haskeline.AppBindings
 
 import Control.Monad.Catch (MonadMask)
 import Data.Char
@@ -81,6 +82,7 @@ controlActions = choiceCmd
                 , simpleKey KillLine +> killFromHelper (SimpleMove moveToStart)
                 ]
             , ctrlChar 'y' +> rotatePaste
+            , ctrlChar 'c' +> runUserBindings
             ]
 
 rotatePaste :: InputCmd InsertMode InsertMode

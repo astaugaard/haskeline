@@ -71,6 +71,7 @@ Library
                 System.Console.Haskeline.History
                 System.Console.Haskeline.IO
                 System.Console.Haskeline.Internal
+                System.Console.Haskeline.KeyBindings
     Other-Modules:
                 System.Console.Haskeline.Backend
                 System.Console.Haskeline.Backend.WCWidth
@@ -90,6 +91,7 @@ Library
                 System.Console.Haskeline.Term
                 System.Console.Haskeline.Command.Undo
                 System.Console.Haskeline.Vi
+                System.Console.Haskeline.AppBindings
     include-dirs: includes
     c-sources: cbits/h_wcwidth.c
 

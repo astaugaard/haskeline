@@ -15,7 +15,6 @@ import qualified Data.ByteString.Char8 as BC
 import Data.Word
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as E
-import Data.Monoid ((<>))
 import System.Exit (exitFailure)
 import System.Process (readProcess)
 import Test.HUnit

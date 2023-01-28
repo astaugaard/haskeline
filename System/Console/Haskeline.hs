@@ -106,10 +106,15 @@ import System.IO
 --           autoAddHistory = True
 --           }
 -- @
+
+emptyKeyBindings :: KeyCommand (InputCmdT m) InsertMode InsertMode
+emptyKeyBindings = choiceCmd []
+
 defaultSettings :: MonadIO m => Settings m
 defaultSettings = Settings {complete = completeFilename,
                         historyFile = Nothing,
-                        autoAddHistory = True}
+                        autoAddHistory = True,
+                        appBindings = emptyKeyBindings}
 
 {- $outputfncs
 The following functions enable cross-platform output of text that may contain

@@ -2,6 +2,7 @@ module Main where
 
 import System.Console.Haskeline
 import System.Environment
+import System.Console.Haskeline.KeyBindings
 
 {--
 Testing the line-input functions and their interaction with ctrl-c signals.
@@ -14,8 +15,15 @@ Usage:
 ./Test initial  (use initial text in the prompt)
 --}
 
+keybindings :: Monad m => KeyCommand (InputCmdT m) InsertMode InsertMode
+keybindings = choiceCmd [
+                simpleChar 's' +> change (\(IMode b a) -> IMode (b ++ stringToGraphemes (reverse "sudo ")) a),
+                simpleChar 'l' +> change (\(IMode b a) -> IMode b (a ++ stringToGraphemes " | less"))
+                ]
+
 mySettings :: Settings IO
-mySettings = defaultSettings {historyFile = Just "myhist"}
+mySettings = defaultSettings {historyFile = Just "myhist",
+                              appBindings = keybindings}
 
 main :: IO ()
 main = do

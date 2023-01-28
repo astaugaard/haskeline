@@ -25,11 +25,11 @@ module System.Console.Haskeline.Command(
                         choiceCmd,
                         keyChoiceCmd,
                         keyChoiceCmdM,
-                        doBefore
+                        doBefore,
+                        liftMonad
                         ) where
 
 import Data.Char(isPrint)
-import Control.Applicative(Applicative(..))
 import Control.Monad(ap, mplus, liftM)
 import Control.Monad.Trans.Class
 import System.Console.Haskeline.LineState
@@ -164,3 +164,12 @@ changeFromChar f = useChar $ change . f
 
 doBefore :: Monad m => Command m s t -> KeyCommand m t u -> KeyCommand m s u
 doBefore cmd = fmap (cmd >|>)
+
+liftMonad :: (Monad m, MonadTrans t) => Command m s o -> Command (t m) s o
+liftMonad old i = liftCM $ old i 
+   where liftCM :: (Monad m, MonadTrans t) => CmdM m o -> CmdM (t m) o
+         liftCM (GetKey km) = GetKey (fmap liftCM km)
+         liftCM (DoEffect e m) = DoEffect e $ liftCM m
+         liftCM (CmdM a) = CmdM $ lift $ fmap liftCM a
+         liftCM (Result a) = Result a
+

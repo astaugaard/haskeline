@@ -10,6 +10,8 @@ import System.Console.Haskeline.Prefs
 import System.Console.Haskeline.Completion
 import System.Console.Haskeline.Backend
 import System.Console.Haskeline.Term
+import System.Console.Haskeline.Command
+import System.Console.Haskeline.LineState
 
 import Control.Exception (IOException)
 import Control.Monad.Catch
@@ -25,9 +27,9 @@ data Settings m = Settings {complete :: CompletionFunc m, -- ^ Custom tab comple
                             historyFile :: Maybe FilePath, -- ^ Where to read/write the history at the
                                                         -- start and end of each
                                                         -- line input session.
-                            autoAddHistory :: Bool -- ^ If 'True', each nonblank line returned by
+                            autoAddHistory :: Bool, -- ^ If 'True', each nonblank line returned by
                                 -- @getInputLine@ will be automatically added to the history.
-
+                            appBindings :: KeyCommand (InputCmdT m) InsertMode InsertMode
                             }
 
 -- | Because 'complete' is the only field of 'Settings' depending on @m@,

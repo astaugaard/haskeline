@@ -7,7 +7,6 @@ import System.Console.Haskeline.LineState
 import System.Console.Haskeline.Monads as Monads
 
 import System.IO
-import Control.Applicative(Applicative)
 import Control.Monad(liftM)
 import Control.Monad.Catch
 

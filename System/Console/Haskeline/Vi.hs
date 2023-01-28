@@ -12,6 +12,7 @@ import System.Console.Haskeline.Command.KillRing
 import System.Console.Haskeline.Command.Undo
 import System.Console.Haskeline.LineState
 import System.Console.Haskeline.InputT
+import System.Console.Haskeline.AppBindings
 
 import Data.Char
 import Control.Monad(liftM)
@@ -132,6 +133,7 @@ simpleCmdActions = choiceCmd [
                     , simpleChar 'n' +> viSearchHist Reverse []
                     , simpleChar 'N' +> viSearchHist Forward []
                     , simpleKey KillLine +> noArg >|> killAndStoreCmd (SimpleMove moveToStart)
+                    , simpleChar ' ' +> change insertFromCommandMode >|> liftMonad runUserBindings >|> change (enterCommandMode. goRight)
                     ]
 
 replaceOnce :: InputCmd CommandMode CommandMode
@@ -265,7 +267,6 @@ goToBigWordDelEnd = goRightUntil $ atStart (not . isBigWordChar)
 movements :: [(Key,InsertMode -> InsertMode)]
 movements = [ (simpleChar 'h', goLeft)
             , (simpleChar 'l', goRight)
-            , (simpleChar ' ', goRight)
             , (simpleKey LeftKey, goLeft)
             , (simpleKey RightKey, goRight)
             , (simpleChar '0', moveToStart)
